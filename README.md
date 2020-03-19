@@ -162,18 +162,18 @@ applied to all of the members of the group.
 
 Create transformations using the commands below.
 ```
-(translate X Y)
+(translate P X Y)
 ```
-Translate the following picture element by X units along the x-axis, and Y units along the y-axis.
+Translate the picture P by X units along the x-axis and Y units along the y-axis.
 ```
-(rotate X)
+(rotate P X)
 ```
-Rotate the following picture element by X degrees about the origin.
+Rotate the picture P by X degrees about the origin.
 ```
-(scale S)
+(scale P S)
 ```
-Scale the following picture element by a factor of S, where S > 0. If (X ,Y) was a vertice on the picture,
-then its new coordinate after scaling is (X * S, Y * S).
+Scale the picture P by a factor of S, where S > 0. If (X ,Y) was a vertice on the picture, then its new
+coordinate after scaling is (X * S, Y * S).
 
 ### Drawing Parameters
 
@@ -190,6 +190,13 @@ Set the current line width to W, which must be a non-negative number. This meani
 as that of PostScript, meaning you can pass this value directly to PostScript commands. The initial value
 of the line width is 1.
 
+## Control Structure
+```
+(for I L U E1 ... EN)
+```
+Execute commands E1 to EN multiple times, first with the symbol I set to the integer L, then to L+1, ..., up to
+and including U. Does nothing if U < L or N == 0 (e.g., there are no commands). At the end of the
+
 ## Input Examples
 
 Zero or more whitespaces are allowed between a parenthesis and the start or end of a command, and between
@@ -200,16 +207,17 @@ For example, the following would draw a thick blue square, rotated 45 degrees.
 ```
 (linewidth 5)
 (color 0 0 1)
-(rotate 45)(rect 100 100 100 100)
+(rotate (rect 100 100 100 100) 45)
 ```
 
 ## PostScript
-The output of your program will be a PostScript document. You can view a PostScript file with any PostScript
-viewer. A popular one is gv available on Linux. A PostScript file has the following form:
+
+The output of your program will be an Encapsulated PostScript (EPS) document. You can view an EPS file with
+any PostScript viewer. A popular one is gv available on Linux. An EPS file has the following form:
 ```
-%!PS-Adobe-3.1
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 0 0 1239 1752
 commands
-showpage
 ```
 The commands of the PostScript language are in postfix notation. The actual PostScript language is free form,
 meaning operands and operators can be separated by arbitrary whitespace. Your output, however, must mimic
@@ -238,6 +246,13 @@ X Y lineto
 ```
 Add a line segment to the current path starting at the current point and going to (X, Y), which becomes the
 new current point.
+```
+X Y R B E arc
+```
+Draw an arc centered at (X, Y) with radius R, beginning at B and ending at E degrees measured
+counterclockwise from the positive x axis. Both B and E must be in the range of [0, 360). (The last
+requirement is not imposed by PostScript, but it normalizes your output to be comparable to that of the
+reference program.)
 ```
 fill
 ```
