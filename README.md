@@ -138,6 +138,25 @@ Draw the outline of a regular N-gon for integer N > 2, whose center is at (X, Y)
 (filledngon X Y R N)
 ```
 Same as ngon, but fill the ngon rather than simply drawing its boundary.
+```
+(sector X Y R B E)
+```
+Draw the outline of a circular sector where (X, Y) is the center, R is the radius, B and E are the beginning
+and ending angles, respectively, measured in degrees counterclockwise from the positive x-axis. Draw this
+sector in the following order: 
+1. the line from the center to the beginning angle on the arc  
+2. the arc from the beginning angle to the ending angle counterclockwise, and   
+3. the line from the ending angle on the
+arc back to the center.
+```
+(filledsector X Y R B E)
+```
+Same as sector, but fill the circular sector rather than simply drawing its boundary.
+```
+(group P1 P2 ... PN)
+```
+Draw pictures P1 through PN, in that order. Any transformations applied to this picture element will be
+applied to all of the members of the group.
 
 ### Transformation Elements
 
